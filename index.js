@@ -45,7 +45,7 @@ app.get('/download', async (req, res) => {
         });
         const ttel = encodeURI(title);
          //console.log(ttel);
-        res.header('Content-Disposition', `attachment; filename="${ttel}.mp4"`);
+        res.header('Content-Disposition', `attachment; filename="${ttel}-Shortsloader.mp4"`);
         ytdl(url, {
             format: 'mp4',
             quality: 'highestvideo',
@@ -56,5 +56,32 @@ app.get('/download', async (req, res) => {
         console.error(err);
     }
 });
+app.get('/audio/:audio', async (req, res) => {
+    try {
+        var url = req.query.url;
+        if (!ytdl.validateURL(url)) {
+            return res.sendStatus(400);
+        }
+        let info = await ytdl.getInfo(url);
+        const title = slugify(info.videoDetails.title, {
+            replacement: ' ',
+            remove: /[*+~.()'"!:@||#₹&"?!}{=¢$¥€•√π÷×¶∆~`π•√=}]/g,
+            lower: true,
+            strict: false
+        });
+        const ttel = encodeURI(title);
+         //console.log(ttel);
+        res.header('Content-Disposition', `attachment; filename="${ttel}-Shortsloader.mp3"`);
+        ytdl(url, {
+            format: 'mp3',
+            filter: 'audioonly',
+            quality: 'highest'
+        }).pipe(res);
+
+    } catch (err) {
+        console.error(err);
+    }
+});
+
     
 app.listen(port, () => console.log(`Server is listening on port ${port}.`));
