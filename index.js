@@ -37,14 +37,15 @@ app.get('/download', async (req, res) => {
             return res.sendStatus(400);
         }
         let info = await ytdl.getInfo(url);
-        console.log(info.videoDetails.title);
         const title = slugify(info.videoDetails.title, {
-            replacement: '-',
-            remove: /[*+~.()'"!:@]/g,
+            replacement: ' ',
+            remove: /[*+~.()'"!:@||]/g,
             lower: true,
             strict: false
         });
-        res.header('Content-Disposition', `attachment; filename="${title}.mp4"`);
+        const ttel = encodeURI(title);
+         //console.log(ttel);
+        res.header('Content-Disposition', `attachment; filename="${ttel}.mp4"`);
         ytdl(url, {
             format: 'mp4',
             quality: 'highestvideo',
