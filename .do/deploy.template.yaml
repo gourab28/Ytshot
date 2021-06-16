@@ -1,8 +1,0 @@
-spec:
-  name: ytshot-backend
-  services:
-  - environment_slug: node-js
-    git:
-      branch: main
-      repo_clone_url: https://github.com/gourab28/Ytshot.git
-    name: ytshot-backend
