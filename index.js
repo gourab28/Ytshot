@@ -30,7 +30,7 @@ app.get('/download', async (req, res) => {
         res.status(200).json({title: name , mp3: audioFormats[1].url , videolink: filemp, direct: url , statu: "30"})
     })
     
-  app.get('/video/:video', async (req, res) => {
+  app.get('/video', async (req, res) => {
     try {
         var url = req.query.url;
         if (!ytdl.validateURL(url)) {
@@ -56,7 +56,7 @@ app.get('/download', async (req, res) => {
         console.error(err);
     }
 });
-app.get('/audio/:audio', async (req, res) => {
+app.get('/audio', async (req, res) => {
     try {
         var url = req.query.url;
         if (!ytdl.validateURL(url)) {
